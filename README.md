@@ -3,6 +3,8 @@
 A basic website built with Node.js.
 Nothing fancy here, just pure Node and HTML.
 
+### [Live Demo on Replit](https://basic-information.zl90.repl.co)
+
 #### Note: this project has been re-written with Express.js
 
 ## Overview
