@@ -1,35 +1,41 @@
 import http from "http";
 import "dotenv/config";
 import fs from "fs";
+import express from "express";
 
-// Grab the port number from environment
-const port = process.env.PORT || 8080;
+const app = express(); // Initialise express.
 
-// Build the server
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/html");
+app.get("/", (request, response) => {
+  response.send(readHTML("./index.html"));
+});
 
-  // When we receive a http request, check the URL,
-  // then serve HTML accordingly.
-  switch (req.url) {
-    case "/index.html":
-    case "/home":
-    case "/":
-      res.end(readHTML("./index.html"));
-      break;
-    case "/about":
-    case "/about.html":
-      res.end(readHTML("./about.html"));
-      break;
-    case "/contact-me":
-    case "/contact-me.html":
-      res.end(readHTML("./contact-me.html"));
-      break;
-    default:
-      res.end(readHTML("./404.html"));
-      break;
-  }
+app.get("/home", (request, response) => {
+  response.send(readHTML("./index.html"));
+});
+
+app.get("/index.html", (request, response) => {
+  response.send(readHTML("./index.html"));
+});
+
+app.get("/about", (request, response) => {
+  response.send(readHTML("./about.html"));
+});
+
+app.get("/about.html", (request, response) => {
+  response.send(readHTML("./about.html"));
+});
+
+app.get("/contact-me", (request, response) => {
+  response.send(readHTML("./contact-me.html"));
+});
+
+app.get("/contact-me.html", (request, response) => {
+  response.send(readHTML("./contact-me.html"));
+});
+
+// Handle bad requests
+app.use((request, response, next) => {
+  response.status(404).send(readHTML("./404.html"));
 });
 
 // Grab the contents of the html file for serving.
@@ -46,7 +52,10 @@ const readHTML = (filename) => {
   return result;
 };
 
+// Grab the port number from environment
+const port = process.env.PORT || 8080;
+
 // Activate the server.
-server.listen(port, () => {
+app.listen(port, () => {
   console.log("Server is listening...");
 });
